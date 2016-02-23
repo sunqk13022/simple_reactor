@@ -9,6 +9,12 @@
 
 namespace thread {
 
+namespace CurrentThread {
+  pid_t Tid();
+  const char* Name();
+  bool IsMainThread();
+} // namespace CurrentThread
+
 class Thread {
  public:
   typedef boost::function<void ()> ThreadFunc;
@@ -19,7 +25,11 @@ class Thread {
   void Start();
   void Join();
 
-  bool Started() const { }
+  bool Started() const { return started_; }
+  pid_t Tid() const { return *tid_; }
+  const std::string& Name() const { return name_; }
+
+  static int NumCreated() { return num_created_.get(); }
 
 
  private:
