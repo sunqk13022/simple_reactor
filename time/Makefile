@@ -1,5 +1,5 @@
 CXXFLAGS=-g -Wall -O0
-LDFLAGS = -lpthread -lrt -L. -lreactor_time
+LDFLAGS = -lpthread  -L. -lreactor_time
 BINARIES=time_bench \
          timestamp_test
 

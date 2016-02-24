@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     name = "clock_gettime";
     for (int i = 0; i < N; ++i) {
       struct timespec ts;
-      clock_gettime(CLOCK_REALTIME, &ts);
+      //clock_gettime(CLOCK_REALTIME, &ts);
     }
   } else {
     name = "getppid";
