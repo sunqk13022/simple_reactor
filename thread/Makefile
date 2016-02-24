@@ -1,18 +1,40 @@
-CXXFLAGS=-g -Wall -rdynamic -march=native
-CXXFLAGS+=-O2
+CXXFLAGS=-g -Wall
+CXXFLAGS+=-O0
+LDFLAGS = -pthread -lrt
+CC=g++
 
+LIBNAME=libreactor_thread.a
 HEADERS=$(wildcard *.h)
 
-TESTS = atomic_test \
-				thread_test
+SRC := $(wildcard *.cc)
+OBJ:=$(SRC:%.cc=%.o)
 
-all: $(TESTS)
+
+TESTS = atomic_test \
+        thread_test
+
+all: $(LIBNAME) $(TESTS)
 
 $(TESTS) : $(HEADERS)
-	g++ $(CXXFLAGS) -o $@ $(filter %.cc, $^) -lpthread
+	$(CC) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+#	g++ $(CXXFLAGS) $(LDFLAGS) -o $@ $(filter %.cc, $^)
 
 atomic_test: test/atomic_test.cc
-thread_test: test/thread_test.cc thread.cc
+thread_test: test/thread_test.cc $(LIBNAME)
+
+$(OBJ): %.o: %.cc
+	$(CC) -c $(CXXFLAGS) $< -o $@
+
+LIB_SRC := thread.cc
+LIB_OBJ := $(patsubst %.cc, %.o, $(LIB_SRC))
+
+$(LIBNAME): $(LIB_SRC)
+	$(CC) $(CXXFLAGS) -c $^
+	ar rcs $@ $(LIB_OBJ)
+	cp $(LIBNAME) ../
+
 
 clean:
-	rm -f $(TESTS)
+	rm -f $(TESTS) $(LIBNAME) ../$(LIBNAME) $(OBJ)
+
+.PHONY: clean

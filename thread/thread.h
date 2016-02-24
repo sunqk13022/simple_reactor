@@ -7,7 +7,7 @@
 
 #include "atomic.h"
 
-namespace thread {
+namespace simple_reactor {
 
 namespace CurrentThread {
   pid_t Tid();
@@ -47,6 +47,6 @@ class Thread {
   Thread& operator = (const Thread& obj);
 }; // class Thread
 
-} // namespace thread
+} // namespace simple_reactor
 
 #endif // THREAD_THREAD_H_

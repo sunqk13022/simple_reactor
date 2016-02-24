@@ -6,7 +6,7 @@
 
 #include <boost/weak_ptr.hpp>
 
-namespace thread {
+namespace simple_reactor {
 
 __thread pid_t t_cachedTid = 0;
 
@@ -120,4 +120,4 @@ void Thread::Join() {
   pthread_join(pthreadId_, NULL);
 }
 
-} // namespace thread
+} // namespace simple_reactor

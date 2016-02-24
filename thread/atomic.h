@@ -4,7 +4,7 @@
 #include <boost/noncopyable.hpp>
 #include <stdint.h>
 
-namespace thread {
+namespace simple_reactor {
 
 template<typename T>
 class AtomicIntegerT {
@@ -51,6 +51,6 @@ class AtomicIntegerT {
 typedef AtomicIntegerT<int32_t> AtomicInt32;
 typedef AtomicIntegerT<int64_t> AtomicInt64;
 
-} // namespace thread
+} // namespace simple_reactor
 
 #endif // ATOMIC_H
