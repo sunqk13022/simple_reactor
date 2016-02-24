@@ -28,7 +28,7 @@ LIB_OBJ := $(patsubst %.cc, %.o, $(LIB_SRC))
 $(LIBNAME): $(LIB_SRC)
 	$(CC) $(CXXFLAGS) -c $^
 	ar rcs $@ $(LIB_OBJ)
-	cp $(LIBNAME) ../
+#	cp $(LIBNAME) ../
 
 clean:
 	rm -rf $(OBJ) $(BINARIES) $(LIBNAME) ../$(LIBNAME)
