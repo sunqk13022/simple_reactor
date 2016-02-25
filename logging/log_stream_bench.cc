@@ -20,7 +20,7 @@ void benchPrintf(const char* fmt) {
     snprintf(buf, sizeof(buf), fmt, (T)(i));
   }
   Timestamp end = Timestamp::Now();
-  printf("benchPrintf %ld\n", end.Ns() - start.Ns());
+  printf("benchPrintf %lld\n", end.Ns() - start.Ns());
 }
 
 template<typename T>
@@ -32,7 +32,7 @@ void benchStringStream() {
     os.seekp(0, std::ios_base::beg);
   }
   Timestamp end = Timestamp::Now();
-  printf("benchStringStream %ld\n", end.Ns() - start.Ns());
+  printf("benchStringStream %lld\n", end.Ns() - start.Ns());
 }
 
 template<typename T>
@@ -44,7 +44,7 @@ void benchLogstream() {
     os.ResetBuffer();
   }
   Timestamp end = Timestamp::Now();
-  printf("benchLogstream %ld\n", end.Ns() - start.Ns());
+  printf("benchLogstream %lld\n", end.Ns() - start.Ns());
 }
 
 int main(int argc, char* argv[]) {
@@ -58,9 +58,9 @@ int main(int argc, char* argv[]) {
   benchStringStream<double>();
   benchLogstream<double>();
   std::cout << "\n=====================int64 test\n";
-  benchPrintf<int64_t>("%d" PRId64);
-  benchStringStream<int64_t>();
-  benchLogstream<int64_t>();
+  benchPrintf<long>("%d" PRId64);
+  benchStringStream<long>();
+  benchLogstream<long>();
   std::cout << "\n=====================void* test\n";
   benchPrintf<void*>("%p");
   benchStringStream<void*>();

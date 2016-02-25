@@ -55,56 +55,56 @@ BOOST_AUTO_TEST_CASE(LogStreamIntLimit) {
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("-2147483647-2147483648 2147483647"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<int16_t>::min();
+  os << std::numeric_limits<short>::min();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("-32768"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<int16_t>::max();
+  os << std::numeric_limits<short>::max();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("32767"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<unsigned int16_t>::min();
+  os << std::numeric_limits<unsigned short>::min();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("0"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<unsigned int16_t>::max();
+  os << std::numeric_limits<unsigned short>::max();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("65535"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<int32_t>::min();
+  os << std::numeric_limits<int>::min();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("-2147483648"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<int32_t>::max();
+  os << std::numeric_limits<int>::max();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("2147483647"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<unsigned int32_t>::min();
+  os << std::numeric_limits<unsigned int>::min();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("0"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<unsigned int32_t>::max();
+  os << std::numeric_limits<unsigned int>::max();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("4294967295"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<int64_t>::min();
+  os << std::numeric_limits<long>::min();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("-9223372036854775808"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<int64_t>::max();
+  os << std::numeric_limits<long>::max();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("9223372036854775807"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<unsigned int64_t>::min();
+  os << std::numeric_limits<unsigned long>::min();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("0"));
 
   os.ResetBuffer();
-  os << std::numeric_limits<unsigned int64_t>::max();
+  os << std::numeric_limits<unsigned long>::max();
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("18446744073709551615"));
 
-  int16_t a = 0;
-  int32_t b = 0;
-  int64_t c = 0;
+  short a = 0;
+  int b = 0;
+  long c = 0;
   os.ResetBuffer();
   os << a << b << c;
   BOOST_CHECK_EQUAL(buf.ToString(), std::string("000"));

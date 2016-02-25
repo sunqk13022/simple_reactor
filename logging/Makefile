@@ -1,7 +1,8 @@
-CXXFLAGS=-g -Wall -O0 -I../
-#CXXFLAGS=-g -Wall -O2 -I../
+#CXXFLAGS=-g -Wall -O0 -I../
+CXXFLAGS=-g -Wall -O2 -I../
 LDFLAGS= -DBOOST_TEST_DYN_LINK -lboost_unit_test_framework -lpthread  -L.
 CC=g++
+#CC=/usr/local/Cellar/gcc48/4.8.5/bin/g++-4.8
 
 BINARIES=log_stream_test \
          log_stream_bench \

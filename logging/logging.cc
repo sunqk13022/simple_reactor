@@ -75,8 +75,8 @@ void Logger::Impl::FormatTime() {
   }
 
   stream_.Append(t_time, 17);
-  Fmt uc(".%06dZ ", microseconds);
-  stream_ << us;
+  Fmt fmuc(".%06dZ ", microseconds);
+  stream_ << fmuc;
 }
 
 void Logger::Impl::Finish() {
