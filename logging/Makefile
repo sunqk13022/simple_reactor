@@ -29,4 +29,4 @@ log_stream_bench: log_stream_bench.cc $(LIBNAME) ../time/timestamp.cc
 logging_test: logging_test.cc $(LIBNAME) ../time/timestamp.cc
 
 clean:
-	rm -rf $(LIB_OBJ) $(BINARIES) $(LIBNAME) *.o
+	rm -rf $(LIB_OBJ) $(BINARIES) $(LIBNAME) *.o *.dSYM
