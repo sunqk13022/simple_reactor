@@ -50,6 +50,8 @@ class Logger {
   Impl impl_;
 }; // class Logger
 
+#define LOG_TRACE
+
 } // namespace simple_reactor
 
 #endif // SIMPLE_REACTOR_LOGGING_LOGGING_H_
