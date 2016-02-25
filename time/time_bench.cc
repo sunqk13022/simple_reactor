@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
   } else if (which == 2) {
     name = "clock_gettime";
     for (int i = 0; i < N; ++i) {
-      struct timespec ts;
+     // struct timespec ts;
       //clock_gettime(CLOCK_REALTIME, &ts);
     }
   } else {
