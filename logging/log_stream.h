@@ -58,7 +58,7 @@ class LogStream {
   LogStream& operator << (float v);
   LogStream& operator << (double v);
   LogStream& operator << (char v);
-  LogStream& operator << (char* v);
+  LogStream& operator << (const char* v);
   LogStream& operator << (const std::string& v);
 
   void ResetBuffer();

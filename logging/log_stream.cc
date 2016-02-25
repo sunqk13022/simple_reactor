@@ -106,7 +106,7 @@ LogStream& LogStream::operator << (const void* v) {
     char* buf = buffer_.Current();
     buf[0] = '0';
     buf[1] = 'x';
-    size_t len = convertHex(buf, vp);
+    size_t len = convertHex(buf + 2, vp);
     buffer_.AddLength(len + 2);
   }
   return *this;
@@ -130,7 +130,7 @@ LogStream& LogStream::operator << (char v) {
   return *this;
 }
 
-LogStream& LogStream::operator << (char* v) {
+LogStream& LogStream::operator << (const char* v) {
   buffer_.Append(v, strlen(v));
   return *this;
 }
