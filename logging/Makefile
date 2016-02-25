@@ -23,4 +23,4 @@ $(BINARIES):
 log_stream_test: log_stream_test.cc $(LIBNAME)
 
 clean:
-	rm -rf $(LIB_OBJ) $(BINARIES) $(LIBNAME)
+	rm -rf $(LIB_OBJ) $(BINARIES) $(LIBNAME) *.o
