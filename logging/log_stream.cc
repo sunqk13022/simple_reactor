@@ -144,4 +144,23 @@ void LogStream::ResetBuffer() {
   buffer_.Reset();
 }
 
+void LogStream::Append(const char* str, int len) {
+  buffer_.Append(str, len);
+}
+
+template<typename T>
+Fmt::Fmt(const char* fmt, T val) {
+  len_ = snprintf(buf_, sizeof(buf_), fmt, val);
+}
+
+template Fmt::Fmt(const char* fmt, char);
+template Fmt::Fmt(const char* fmt, short);
+template Fmt::Fmt(const char* fmt, unsigned short);
+template Fmt::Fmt(const char* fmt, int);
+template Fmt::Fmt(const char* fmt, unsigned int);
+template Fmt::Fmt(const char* fmt, long);
+template Fmt::Fmt(const char* fmt, unsigned long);
+template Fmt::Fmt(const char* fmt, float);
+template Fmt::Fmt(const char* fmt, double);
+
 } // namespace simple_reactor

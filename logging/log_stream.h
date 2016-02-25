@@ -29,6 +29,7 @@ class FixedBuffer {
 
   int Avail() const { return static_cast<int>(End() - cur_); }
   int Length() const { return static_cast<int>(cur_ - data_); }
+  const char* Data() const { return data_; }
 
   std::string ToString() const { return std::string(data_, Length()); }
 
@@ -66,6 +67,8 @@ class LogStream {
     return buffer_;
   }
 
+  void Append(const char* str, int len);
+
  private:
   template<typename T>
   void formatInteger(T);
@@ -77,6 +80,23 @@ class LogStream {
   LogStream(const LogStream& obj);
   LogStream& operator = (const LogStream& obj);
 }; // class LogStream
+
+class Fmt {
+ public:
+  template<typename T>
+  Fmt(const char* fmt, T val);
+
+  const char* Data() const { return buf_; }
+  int Length() const { return len_; }
+ private:
+  char buf_[32];
+  int  len_;
+}; // class Fmt
+
+inline LogStream& operator <<(LogStream& s, const Fmt& fmt) {
+  s.Append(fmt.Data(), fmt.Length());
+  return s;
+}
 
 } // namespace simple_reactor
 

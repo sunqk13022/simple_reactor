@@ -47,4 +47,8 @@ std::string Timestamp::ToFormattedString() const {
   return buf;
 }
 
+time_t Timestamp::Seconds() const {
+  return static_cast<time_t>(ns_ / kMicroSeconds);
+}
+
 } // namespace simple_reactor

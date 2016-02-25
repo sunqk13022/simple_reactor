@@ -16,6 +16,7 @@ class Timestamp {
 
   bool Valid() const { return ns_ > 0; }
   int64_t Ns() const { return ns_; }
+  time_t Seconds() const;
 
   static Timestamp Now();
 
