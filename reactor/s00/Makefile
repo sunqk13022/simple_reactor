@@ -2,7 +2,8 @@ CXXFLAGS=-g -Wall -O2 -pthread -I../../
 LDFLAGS= -lpthread -lsimreactor -L.
 CC=g++
 
-BINARIES=test1
+BINARIES=test1 \
+         test2
 LIBNAME=libsimreactor.a
 
 all: $(BINARIES)
@@ -11,6 +12,7 @@ $(BINARIES):$(LIBNAME)
 	$(CC) $(CXXFLAGS) -o $@  $(filter %.cc,$^) $(LDFLAGS)
 
 test1: test1.cc
+test2: test2.cc
 
 BASE_SRC :=../../thread/thread.cc \
           ../../time/timestamp.cc \
