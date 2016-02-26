@@ -1,5 +1,5 @@
 CXXFLAGS=-g -Wall
-CXXFLAGS+=-O0
+CXXFLAGS+=-O0 -I../
 LDFLAGS = -pthread -lrt
 CC=g++
 
@@ -11,7 +11,8 @@ OBJ:=$(SRC:%.cc=%.o)
 
 
 TESTS = atomic_test \
-        thread_test
+        thread_test \
+        race_condition_test
 
 all: $(LIBNAME) $(TESTS)
 
@@ -21,6 +22,7 @@ $(TESTS) : $(HEADERS)
 
 atomic_test: test/atomic_test.cc
 thread_test: test/thread_test.cc $(LIBNAME)
+race_condition_test: race_condition_test.cc $(LIBNAME) ../time/timestamp.cc ../logging/log_stream.cc ../logging/logging.cc
 
 $(OBJ): %.o: %.cc
 	$(CC) -c $(CXXFLAGS) $< -o $@
