@@ -1,4 +1,4 @@
-CXXFLAGS=-g -Wall -O2 -I../../
+CXXFLAGS=-g -Wall -O2 -pthread -I../../
 LDFLAGS= -lpthread -lsimreactor -L.
 CC=g++
 
@@ -13,10 +13,11 @@ $(BINARIES):$(LIBNAME)
 test1: test1.cc
 
 BASE_SRC :=../../thread/thread.cc \
+          ../../time/timestamp.cc \
           ../../logging/log_stream.cc \
           ../../logging/logging.cc
 
-LIB_SRC :=
+LIB_SRC :=event_loop.cc
 SUM_SRC = $(notdir $(LIB_SRC) $(BASE_SRC))
 LIB_OBJ = $(patsubst %.cc,%.o,$(SUM_SRC))
 $(LIBNAME): $(LIB_SRC) $(BASE_SRC)
