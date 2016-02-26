@@ -98,6 +98,9 @@ Logger::~Logger() {
     abort();
   }
 }
+LogStream& Logger::Stream() {
+  return impl_.stream_;
+}
 
 Logger::LogLevel Logger::GetLogLevel() {
   return g_log_level;

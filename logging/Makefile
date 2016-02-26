@@ -13,7 +13,7 @@ all: $(LIBNAME) $(BINARIES)
 
 
 
-LIB_SRC := log_stream.cc logging.cc
+LIB_SRC := log_stream.cc logging.cc ../thread/thread.cc
 LIB_OBJ := $(patsubst %.cc, %.o, $(LIB_SRC))
 $(LIBNAME): $(LIB_OBJ)
 	ar rcs $@ $^
@@ -29,4 +29,4 @@ log_stream_bench: log_stream_bench.cc $(LIBNAME) ../time/timestamp.cc
 logging_test: logging_test.cc $(LIBNAME) ../time/timestamp.cc
 
 clean:
-	rm -rf $(LIB_OBJ) $(BINARIES) $(LIBNAME) *.o *.dSYM
+	rm -rf $(LIB_OBJ) $(BINARIES) $(LIBNAME) *.o *.dSYM *.txt

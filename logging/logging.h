@@ -50,7 +50,15 @@ class Logger {
   Impl impl_;
 }; // class Logger
 
-#define LOG_TRACE
+#define LOG_TRACE if (simple_reactor::Logger::GetLogLevel() <= simple_reactor::Logger::TRACE) \
+  simple_reactor::Logger(__FILE__, __LINE__, simple_reactor::Logger::TRACE, __func__).Stream()
+#define LOG_DEBUG if (simple_reactor::Logger::GetLogLevel() <= simple_reactor::Logger::DEBUG) \
+  simple_reactor::Logger(__FILE__, __LINE__, simple_reactor::Logger::DEBUG, __func__).Stream()
+#define LOG_INFO if (simple_reactor::Logger::GetLogLevel() <= simple_reactor::Logger::INFO) \
+  simple_reactor::Logger(__FILE__, __LINE__, simple_reactor::Logger::INFO, __func__).Stream()
+#define LOG_WARN simple_reactor::Logger(__FILE__, __LINE__, simple_reactor::Logger::WARN, __func__).Stream()
+#define LOG_ERROR simple_reactor::Logger(__FILE__, __LINE__, simple_reactor::Logger::ERROR, __func__).Stream()
+#define LOG_FATAL simple_reactor::Logger(__FILE__, __LINE__, simple_reactor::Logger::FATAL, __func__).Stream()
 
 } // namespace simple_reactor
 
