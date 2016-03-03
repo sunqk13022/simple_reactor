@@ -18,11 +18,17 @@ class Timestamp {
   int64_t Ns() const { return ns_; }
   time_t Seconds() const;
 
+  void AddSeconds(double seconds);
+
   static Timestamp Now();
 
  private:
   int64_t  ns_;
 }; // class Timestamp
+
+inline bool operator < (Timestamp lhs, Timestamp rhs) {
+  return lhs.Ns() < rhs.Ns();
+}
 
 } // namespace simple_reactor
 

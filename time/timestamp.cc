@@ -51,4 +51,8 @@ time_t Timestamp::Seconds() const {
   return static_cast<time_t>(ns_ / kMicroSeconds);
 }
 
+void Timestamp::AddSeconds(double seconds) {
+  ns_ += seconds * kMicroSeconds;
+}
+
 } // namespace simple_reactor
