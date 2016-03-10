@@ -34,6 +34,8 @@ class TimerQueue {
 
   bool Insert(Timer* timer);
 
+  void AddTimerInLoop(Timer* timer);
+
  private:
 
   EventLoop*         loop_;

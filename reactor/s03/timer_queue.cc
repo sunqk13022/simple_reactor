@@ -76,6 +76,11 @@ TimerQueue::~TimerQueue() {
 
 void TimerQueue::AddTimer(const TimerCallback& cb, Timestamp when, double interval) {
   Timer* timer = new Timer(cb, when, interval);
+  loop_->RunInLoop(
+    boost::bind(&TimerQueue::AddTimerInLoop, this, timer));
+}
+
+void TimerQueue::AddTimerInLoop(Timer* timer) {
   loop_->AssertInloopthread();
   bool earlist_changed = Insert(timer);
   if (earlist_changed) {

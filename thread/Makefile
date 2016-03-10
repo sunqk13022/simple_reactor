@@ -13,6 +13,7 @@ OBJ:=$(SRC:%.cc=%.o)
 TESTS = atomic_test \
         thread_test \
         race_condition_test \
+        mutual_dead_lock \
         copyonwrite_test
 
 all: $(LIBNAME) $(TESTS)
@@ -25,6 +26,7 @@ atomic_test: test/atomic_test.cc
 thread_test: test/thread_test.cc $(LIBNAME)
 race_condition_test: race_condition_test.cc $(LIBNAME) ../time/timestamp.cc ../logging/log_stream.cc ../logging/logging.cc
 copyonwrite_test: copyonwrite_test.cc $(LIBNAME) ../time/timestamp.cc ../logging/log_stream.cc ../logging/logging.cc
+mutual_dead_lock: mutual_dead_lock.cc $(LIBNAME) ../time/timestamp.cc ../logging/log_stream.cc ../logging/logging.cc
 
 $(OBJ): %.o: %.cc
 	$(CC) -c $(CXXFLAGS) $< -o $@

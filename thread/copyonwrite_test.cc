@@ -4,7 +4,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "thread.h"
-#include "mutext.h"
+#include "mutex.h"
 
 using namespace simple_reactor;
 
