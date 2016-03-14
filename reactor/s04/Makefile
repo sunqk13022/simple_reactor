@@ -7,6 +7,7 @@ BINARIES=test1 \
          test4 \
          test5 \
          test6 \
+         test7 \
          test3
 LIBNAME=libsimreactor.a
 
@@ -21,6 +22,7 @@ test3: test3.cc
 test4: test4.cc
 test5: test5.cc
 test6: test6.cc
+test7: test7.cc
 
 BASE_SRC :=../../thread/thread.cc \
           ../../time/timestamp.cc \
@@ -36,6 +38,7 @@ LIB_SRC :=event_loop.cc \
           inet_address.cc \
           socket_fun.cc \
           socket.cc \
+          acceptor.cc \
           channel.cc
 
 
