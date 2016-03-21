@@ -20,6 +20,7 @@ class Channel {
   void SetReadCallback(const EventCallback& cb);
   void SetWriteCallback(const EventCallback& cb);
   void SetErrorCallback(const EventCallback& cb);
+  void SetCloseCallback(const EventCallback& cb);
 
   int Fd() const;
   int Events() const;
@@ -33,6 +34,7 @@ class Channel {
   EventLoop* GetLoop() const;
 
   void EnableReading();
+  void DisableAll();
 
  private:
 
@@ -45,6 +47,7 @@ class Channel {
   int        events_;
   int        revents_;
   int        index_;
+  bool       event_handling_;
 
   static const int kNoneEvent;
   static const int kReadEvent;
@@ -53,6 +56,7 @@ class Channel {
   EventCallback  read_callback_;
   EventCallback  write_callback_;
   EventCallback  error_callback_;
+  EventCallback  close_callback_;
 }; // class Channel
 
 } // namespace simple_reactor

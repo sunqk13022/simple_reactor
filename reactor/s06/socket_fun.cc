@@ -1,6 +1,6 @@
 #include "socket_fun.h"
 
-#include <error.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <strings.h>
@@ -106,6 +106,17 @@ struct sockaddr_in GetLocalAddr(int sockfd) {
     LOG_FATAL << "socket_fun::GetLocalAddr Error!";
   }
   return localaddr;
+}
+
+int GetSocketError(int sockfd) {
+  int optval;
+  socklen_t optlen = sizeof(optval);
+
+  if (::getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &optval, &optlen) < 0) {
+    return errno;
+  } else {
+    return optval;
+  }
 }
 
 } // namespace socket_fun

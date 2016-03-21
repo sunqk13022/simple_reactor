@@ -71,4 +71,26 @@ Timestamp Poller::Poll(int timeout_micseconds, std::vector<Channel*>* active_cha
   return now;
 }
 
+void Poller::RemoveChannel(Channel* channel) {
+  ownerloop_->AssertInloopthread();
+  LOG_INFO << "fd=" << channel->Fd();
+
+  int idx = channel->Index();
+  const struct pollfd& pfd = pollfds_[idx];
+  (void)pfd;
+  channels_.erase(channel->Fd());
+
+  if ((size_t)(idx) == pollfds_.size() -1) {
+    pollfds_.pop_back();
+  } else {
+    int channel_end = pollfds_.back().fd;
+    iter_swap(pollfds_.begin() + idx, pollfds_.end() - 1);
+    if (channel_end < 0) {
+      channel_end = -channel_end - 1;
+    }
+    channels_[channel_end]->SetIndex(idx);
+    pollfds_.pop_back();
+  }
+}
+
 } // namespace simple_reactor

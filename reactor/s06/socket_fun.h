@@ -33,6 +33,8 @@ void SockaddrToString(const struct sockaddr_in& addr, std::string* host);
 
 struct sockaddr_in GetLocalAddr(int sockfd);
 
+int GetSocketError(int sockfd);
+
 } // namespace socket_fun
 } // namespace simple_reactor
 

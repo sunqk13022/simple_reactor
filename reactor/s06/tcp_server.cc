@@ -61,7 +61,18 @@ void TcpServer::HandleNewConnection(int sockfd, const InetAddress& peer_addr) {
   connections_[conn_name] = conn;
   conn->SetConnectionCallback(connection_callback_);
   conn->SetMessageCallback(message_callback_);
+  conn->SetCloseCallback(
+    boost::bind(&TcpServer::RemoveConnection, this, _1));
   conn->ConnectionEstablished();
+}
+
+void TcpServer::RemoveConnection(const TcpConnectionPtr& conn) {
+  loop_->AssertInloopthread();
+  LOG_INFO << "TcpServer::RemoveConnection [" << name_
+    << "] - connection " << conn->GetName();
+  connections_.erase(conn->GetName());
+  loop_->QueueInLoop(
+    boost::bind(&TcpConnection::ConnectionDestroyed, conn));
 }
 
 } // namespace simple_reactor

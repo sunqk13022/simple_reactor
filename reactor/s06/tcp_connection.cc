@@ -9,6 +9,7 @@
 #include "channel.h"
 #include "event_loop.h"
 #include "socket.h"
+#include "socket_fun.h"
 
 namespace simple_reactor {
 
@@ -28,6 +29,12 @@ TcpConnection::TcpConnection(EventLoop* loop,
   LOG_DEBUG << "TcpConnection::TcpConnection[" << name_ << "] at " << this << " fd=" << sockfd;
   channel_->SetReadCallback(
     boost::bind(&TcpConnection::HandleRead, this));
+  channel_->SetWriteCallback(
+    boost::bind(&TcpConnection::HandleWrite, this));
+  channel_->SetCloseCallback(
+    boost::bind(&TcpConnection::HandleClose, this));
+  channel_->SetErrorCallback(
+    boost::bind(&TcpConnection::HandleError, this));
 }
 
 TcpConnection::~TcpConnection() {
@@ -58,6 +65,10 @@ void TcpConnection::SetMessageCallback(const MessageCallback& cb) {
   message_callback_ = cb;
 }
 
+void TcpConnection::SetCloseCallback(const CloseCallback& cb) {
+  close_callback_ = cb;
+}
+
 void TcpConnection::ConnectionEstablished() {
   loop_->AssertInloopthread();
   SetState(kConnected);
@@ -66,10 +77,41 @@ void TcpConnection::ConnectionEstablished() {
   connection_callback_(shared_from_this());
 }
 
+void TcpConnection::ConnectionDestroyed() {
+  loop_->AssertInloopthread();
+  SetState(kDisConnected);
+  channel_->DisableAll();
+  connection_callback_(shared_from_this());
+
+  loop_->RemoveChannel(get_pointer(channel_));
+}
+
 void TcpConnection::HandleRead() {
   char buf[65536];
   ssize_t n = ::read(channel_->Fd(), buf, sizeof(buf));
-  message_callback_(shared_from_this(), buf, n);
+  if (n > 0) {
+    message_callback_(shared_from_this(), buf, n);
+  } else if (n == 0) {
+    HandleClose();
+  } else {
+    HandleError();
+  }
+}
+
+void TcpConnection::HandleWrite() {
+}
+
+void TcpConnection::HandleClose() {
+  loop_->AssertInloopthread();
+  LOG_INFO << "TcpConnection::HandleClose state = " << state_;
+  channel_->DisableAll();
+  close_callback_(shared_from_this());
+}
+
+void TcpConnection::HandleError() {
+  int err = socket_fun::GetSocketError(channel_->Fd());
+  LOG_ERROR << "TcpConnection::HandleError [" << name_
+    << "] - SO_ERROR = " << err;
 }
 
 } // namespace simple_reactor

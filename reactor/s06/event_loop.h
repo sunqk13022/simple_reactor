@@ -30,6 +30,7 @@ class EventLoop {
   bool IsInLoopthread() const;
 
   void UpdateChannel(Channel* ch);
+  void RemoveChannel(Channel* ch);
 
   void RunAfter(double delay, const TimerCallback& cb);
   void RunEvery(double interval, const TimerCallback& cb);

@@ -96,6 +96,11 @@ void EventLoop::UpdateChannel(Channel* ch) {
   poller_->UpdateChannel(ch);
 }
 
+void EventLoop::RemoveChannel(Channel* ch) {
+  AssertInloopthread();
+  poller_->RemoveChannel(ch);
+}
+
 void EventLoop::RunAfter(double delay, const TimerCallback& cb) {
   Timestamp t(Timestamp::Now());
   t.AddSeconds(delay);

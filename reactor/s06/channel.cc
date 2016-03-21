@@ -17,7 +17,8 @@ Channel::Channel(EventLoop* loop, int fd)
     fd_(fd),
     events_(0),
     revents_(0),
-    index_(-1)
+    index_(-1),
+    event_handling_(false)
 {
 }
 
@@ -33,13 +34,24 @@ void Channel::EnableReading() {
   Update();
 }
 
+void Channel::DisableAll() {
+  events_ |= kNoneEvent;
+  Update();
+}
+
 EventLoop* Channel::GetLoop() const {
   return loop_;
 }
 
 void Channel::HandleEvent() {
+  event_handling_ = true;
   if (revents_ & POLLNVAL) {
     LOG_WARN << "Channel::handle_event() POLLNVAL";
+  }
+
+  if ((revents_ & POLLHUP) && !(revents_ & POLLIN)) {
+    LOG_WARN << "Channel::HandleEvent() POLLHUP";
+    if (close_callback_) close_callback_();
   }
 
   if (revents_ & (POLLERR | POLLNVAL)) {
@@ -53,6 +65,7 @@ void Channel::HandleEvent() {
   if (revents_ & POLLOUT) {
     if (write_callback_) write_callback_();
   }
+  event_handling_ = false;
 }
 
 void Channel::SetReadCallback(const EventCallback& cb) {
@@ -65,6 +78,10 @@ void Channel::SetWriteCallback(const EventCallback& cb) {
 
 void Channel::SetErrorCallback(const EventCallback& cb) {
   error_callback_ = cb;
+}
+
+void Channel::SetCloseCallback(const EventCallback& cb) {
+  close_callback_ = cb;
 }
 
 int Channel::Fd() const {

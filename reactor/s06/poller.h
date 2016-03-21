@@ -22,6 +22,7 @@ class Poller {
   Timestamp Poll(int timeout_micseconds, std::vector<Channel*>* active_channels);
 
   void UpdateChannel(Channel* channel);
+  void RemoveChannel(Channel* channel);
 
  private:
 

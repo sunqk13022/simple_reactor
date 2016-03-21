@@ -17,6 +17,8 @@ typedef boost::function<void (const TcpConnectionPtr&,
                               const char* data,
                               ssize_t len)> MessageCallback;
 
+typedef boost::function<void (const TcpConnectionPtr&)> CloseCallback;
+
 } // namespace simple_reactor
 
 #endif // SIMPLE_REACTOR_REACTOR_SO2_CALLBACK_H_
