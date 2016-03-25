@@ -50,6 +50,7 @@ class EventLoop {
   bool                           quit_;
   bool                           call_pandingfunctors_;
   const pid_t                    threadid_;
+  Timestamp                      poll_returntime_;
   boost::scoped_ptr<Poller>      poller_;
   boost::scoped_ptr<TimerQueue>  timer_queue_;
   int                            wakefd_;

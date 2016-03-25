@@ -9,6 +9,8 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "buffer.h"
+
 namespace simple_reactor {
 
 class Channel;
@@ -42,7 +44,7 @@ class TcpConnection: public boost::enable_shared_from_this<TcpConnection> {
 
   void SetState(StateE s) { state_ = s; }
 
-  void HandleRead();
+  void HandleRead(Timestamp receiveTime);
   void HandleWrite();
   void HandleClose();
   void HandleError();
@@ -57,6 +59,7 @@ class TcpConnection: public boost::enable_shared_from_this<TcpConnection> {
   ConnectionCallback         connection_callback_;
   MessageCallback            message_callback_;
   CloseCallback              close_callback_;
+  Buffer                     input_buffer_;
 }; // class TcpConnection
 
 } // namespace simple_reactor

@@ -57,10 +57,10 @@ void EventLoop::Loop() {
   while (!quit_) {
     active_channel_.clear();
     //::poll(NULL, 0, 5*1000);
-    poller_->Poll(10000, &active_channel_);
+    poll_returntime_ = poller_->Poll(10000, &active_channel_);
     for (std::vector<Channel*>::iterator it = active_channel_.begin();
          it != active_channel_.end(); ++it) {
-      (*it)->HandleEvent();
+      (*it)->HandleEvent(poll_returntime_);
     }
     DoPendingFunctors();
   }

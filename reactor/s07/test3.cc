@@ -13,14 +13,14 @@ using namespace simple_reactor;
 
 EventLoop* g_loop;
 
-void timeout() {
+void timeout(Timestamp receiveTime) {
   //printf("Run: pid = %d, tid=%d\n", getpid(), CurrentThread::Tid());
-  printf("Timeout!\n");
+  printf("Timeout! %s\n", receiveTime.ToFormattedString().c_str());
   g_loop->Quit();
 }
 
 int main(int argc, char* argv[]) {
-  //printf("main: pid = %d, tid=%d\n", getpid(), CurrentThread::Tid());
+  printf("main: pid = %d, tid=%d time=%s\n", getpid(), CurrentThread::Tid(), Timestamp::Now().ToFormattedString().c_str());
   //Logger::SetLogLevel(Logger::ERROR);
   EventLoop loop;
   g_loop = &loop;

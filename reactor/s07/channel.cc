@@ -43,7 +43,7 @@ EventLoop* Channel::GetLoop() const {
   return loop_;
 }
 
-void Channel::HandleEvent() {
+void Channel::HandleEvent(Timestamp receiveTime) {
   event_handling_ = true;
   if (revents_ & POLLNVAL) {
     LOG_WARN << "Channel::handle_event() POLLNVAL";
@@ -59,7 +59,7 @@ void Channel::HandleEvent() {
   }
 
   if (revents_ & (POLLIN | POLLPRI | POLLRDHUP)) {
-    if (read_callback_) read_callback_();
+    if (read_callback_) read_callback_(receiveTime);
   }
 
   if (revents_ & POLLOUT) {
@@ -68,7 +68,7 @@ void Channel::HandleEvent() {
   event_handling_ = false;
 }
 
-void Channel::SetReadCallback(const EventCallback& cb) {
+void Channel::SetReadCallback(const ReadEventCallback& cb) {
   read_callback_ = cb;
 }
 

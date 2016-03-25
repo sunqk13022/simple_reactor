@@ -43,6 +43,7 @@ LIB_SRC :=event_loop.cc \
           acceptor.cc \
           tcp_connection.cc \
           tcp_server.cc \
+          buffer.cc \
           channel.cc
 
 

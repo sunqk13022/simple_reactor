@@ -28,7 +28,7 @@ TcpConnection::TcpConnection(EventLoop* loop,
 {
   LOG_DEBUG << "TcpConnection::TcpConnection[" << name_ << "] at " << this << " fd=" << sockfd;
   channel_->SetReadCallback(
-    boost::bind(&TcpConnection::HandleRead, this));
+    boost::bind(&TcpConnection::HandleRead, this, _1));
   channel_->SetWriteCallback(
     boost::bind(&TcpConnection::HandleWrite, this));
   channel_->SetCloseCallback(
@@ -86,14 +86,15 @@ void TcpConnection::ConnectionDestroyed() {
   loop_->RemoveChannel(get_pointer(channel_));
 }
 
-void TcpConnection::HandleRead() {
-  char buf[65536];
-  ssize_t n = ::read(channel_->Fd(), buf, sizeof(buf));
+void TcpConnection::HandleRead(Timestamp receiveTime) {
+  int errnum = 0;
+  ssize_t n = input_buffer_.ReadFd(channel_->Fd(), &errnum);
   if (n > 0) {
-    message_callback_(shared_from_this(), buf, n);
+    message_callback_(shared_from_this(), &input_buffer_, receiveTime);
   } else if (n == 0) {
     HandleClose();
   } else {
+    LOG_ERROR << "TcpConnection::HandleRead";
     HandleError();
   }
 }
