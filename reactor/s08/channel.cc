@@ -39,6 +39,20 @@ void Channel::DisableAll() {
   Update();
 }
 
+void Channel::EnableWriting() {
+  events_ |= kWriteEvent;
+  Update();
+}
+
+void Channel::DisableWriting() {
+  events_ &= ~kWriteEvent;
+  Update();
+}
+
+bool Channel::IsWriting() const {
+  return events_ & kWriteEvent;
+}
+
 EventLoop* Channel::GetLoop() const {
   return loop_;
 }

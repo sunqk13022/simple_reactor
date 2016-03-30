@@ -70,6 +70,12 @@ void Buffer::RetrieveAll() {
   write_index_ = kCheapPrepend;
 }
 
+std::string Buffer::RetrieveAsString() {
+  std::string str(Peek(), GetReadableBytes());
+  RetrieveAll();
+  return str;
+}
+
 void Buffer::Append(const char* data, size_t len) {
   EnsureWritableBytes(len);
   std::copy(data, data + len, BeginWrite());

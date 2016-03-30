@@ -32,6 +32,9 @@ class TcpConnection: public boost::enable_shared_from_this<TcpConnection> {
   const InetAddress& GetPeerAddr();
   bool  GetConnected() const { return state_ == kConnected; }
 
+  void Send(const std::string& message);
+  void Shutdown();
+
   void SetConnectionCallback(const ConnectionCallback& cb);
   void SetMessageCallback(const MessageCallback& cb);
   void SetCloseCallback(const CloseCallback& cb);
@@ -40,7 +43,7 @@ class TcpConnection: public boost::enable_shared_from_this<TcpConnection> {
   void ConnectionDestroyed();
 
  private:
-  enum StateE { kConnecting, kConnected, kDisConnected};
+  enum StateE { kConnecting, kConnected, kDisConnecting, kDisConnected};
 
   void SetState(StateE s) { state_ = s; }
 
@@ -48,6 +51,8 @@ class TcpConnection: public boost::enable_shared_from_this<TcpConnection> {
   void HandleWrite();
   void HandleClose();
   void HandleError();
+  void SendInLoop(const std::string& message);
+  void ShutdownInLoop();
 
   EventLoop*                 loop_;
   std::string                name_;
@@ -60,6 +65,7 @@ class TcpConnection: public boost::enable_shared_from_this<TcpConnection> {
   MessageCallback            message_callback_;
   CloseCallback              close_callback_;
   Buffer                     input_buffer_;
+  Buffer                     output_buffer_;
 }; // class TcpConnection
 
 } // namespace simple_reactor

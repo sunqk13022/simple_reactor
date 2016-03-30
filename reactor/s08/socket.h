@@ -16,6 +16,7 @@ class Socket {
   void Listen();
   int  Accept(InetAddress* addr);
   void SetReuseAddr(bool on);
+  void ShutdownWrite();
 
  private:
   const int sockfd_;

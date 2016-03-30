@@ -115,4 +115,56 @@ void TcpConnection::HandleError() {
     << "] - SO_ERROR = " << err;
 }
 
+void TcpConnection::Send(const std::string& message) {
+  if (state_ == kConnected) {
+    if (loop_->IsInLoopthread()) {
+      SendInLoop(message);
+    } else {
+      loop_->RunInLoop(
+        boost::bind(&TcpConnection::SendInLoop, this, message));
+    }
+  }
+}
+
+void TcpConnection::Shutdown() {
+  if (state_ == kConnected) {
+    SetState(kDisConnecting);
+    loop_->RunInLoop(
+      boost::bind(&TcpConnection::ShutdownInLoop, this));
+  }
+}
+
+void TcpConnection::SendInLoop(const std::string& message) {
+  loop_->AssertInloopthread();
+  ssize_t nwrote = 0;
+
+  if (!channel_->IsWriting() && output_buffer_.GetReadableBytes() == 0) {
+    nwrote = ::write(channel_->Fd(), message.c_str(), message.size());
+    if (nwrote >= 0) {
+      if ((size_t)nwrote < message.size()) {
+        LOG_ERROR << "Going to write more data";
+      }
+    } else {
+      nwrote = 0;
+      if (errno != EWOULDBLOCK) {
+        LOG_FATAL << "TcpConnection::SendInLoop error!";
+      }
+    }
+  }
+
+  if ((size_t)(nwrote) < message.size()) {
+    output_buffer_.Append(message.c_str() + nwrote, message.size() - nwrote);
+    if (!channel_->IsWriting()) {
+      channel_->EnableWriting();
+    }
+  }
+}
+
+void TcpConnection::ShutdownInLoop() {
+  loop_->AssertInloopthread();
+  if (!channel_->IsWriting()) {
+    socket_->ShutdownWrite();
+  }
+}
+
 } // namespace simple_reactor

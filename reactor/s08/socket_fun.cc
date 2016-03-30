@@ -80,6 +80,12 @@ void Close(int sockfd) {
   ::close(sockfd);
 }
 
+void ShutdownWrite(int sockfd) {
+  if (::shutdown(sockfd, SHUT_WR) < 0) {
+    LOG_FATAL << "socket_fun::ShutdownWrite";
+  }
+}
+
 void ParseSockaddrFromHostPort(const char* ip, uint16_t port, struct sockaddr_in* addr) {
   addr->sin_family = AF_INET;
   addr->sin_port = HostToNetwork16(port);

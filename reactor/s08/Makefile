@@ -9,6 +9,7 @@ BINARIES=test1 \
          test6 \
          test7 \
          test8 \
+         test9 \
          test3
 LIBNAME=libsimreactor.a
 
@@ -25,6 +26,7 @@ test5: test5.cc
 test6: test6.cc
 test7: test7.cc
 test8: test8.cc
+test9: test9.cc
 
 BASE_SRC :=../../thread/thread.cc \
           ../../time/timestamp.cc \

@@ -44,4 +44,8 @@ void Socket::SetReuseAddr(bool on) {
   ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
 }
 
+void Socket::ShutdownWrite() {
+  socket_fun::ShutdownWrite(sockfd_);
+}
+
 } // namespace simple_reactor

@@ -24,6 +24,7 @@ class Buffer {
   void Retrieve(size_t len);
   void RetrieveUntil(const char* end);
   void RetrieveAll();
+  std::string RetrieveAsString();
 
   void Append(const char* data, size_t len);
   void Append(const void* data, size_t len);

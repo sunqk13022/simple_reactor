@@ -38,6 +38,10 @@ class Channel {
   void EnableReading();
   void DisableAll();
 
+  void EnableWriting();
+  void DisableWriting();
+  bool IsWriting() const;
+
  private:
 
   void Update();

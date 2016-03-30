@@ -28,6 +28,8 @@ int  Accept(int sockfd, struct sockaddr_in* addr);
 
 void Close(int sockfd);
 
+void ShutdownWrite(int sockfd);
+
 void ParseSockaddrFromHostPort(const char* ip, uint16_t port, struct sockaddr_in* addr);
 void SockaddrToString(const struct sockaddr_in& addr, std::string* host);
 
